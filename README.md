@@ -15,7 +15,7 @@
 import React from 'react'
 
 const Dashboard = ({ user }) => {
-    return <p>Welcome, {user} 🎉</p>
+  return <p>Welcome, {user} 🎉</p>
 }
 
 export default Dashboard
@@ -29,16 +29,16 @@ import LoginForm from './components/LoginForm.js'
 import Dashboard from './components/Dashboard.js'
 
 function App() {
-    return (
-        <div className="container my-4">
-            <h1 className="display-3 text-center mb-4">Authentification</h1>
-            <LoginForm />
-            <Dashboard />
-            <button type="button" className="btn btn-danger">
-                Log out
-            </button>
-        </div>
-    )
+  return (
+    <div className="container my-4">
+      <h1 className="display-3 text-center mb-4">Authentification</h1>
+      <LoginForm />
+      <Dashboard />
+      <button type="button" className="btn btn-danger">
+        Log out
+      </button>
+    </div>
+  )
 }
 
 export default App
@@ -52,30 +52,24 @@ import LoginForm from './components/LoginForm.js'
 import Dashboard from './components/Dashboard.js'
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(false)
-    const [username, setUsername] = useState('')
-    return (
-        <div className="container my-4">
-            <h1 className="display-3 text-center mb-4">Authentification</h1>
-            {!loggedIn && (
-                <LoginForm
-                    setUsername={setUsername}
-                    setLoggedIn={setLoggedIn}
-                />
-            )}
-            {loggedIn && (
-                <>
-                    <Dashboard user={username} />
-                    <button
-                        className="btn btn-danger"
-                        onClick={handleLogoutClick}
-                    >
-                        Log out
-                    </button>
-                </>
-            )}
-        </div>
-    )
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [username, setUsername] = useState('')
+  return (
+    <div className="container my-4">
+      <h1 className="display-3 text-center mb-4">Authentification</h1>
+      {!loggedIn && (
+        <LoginForm setUsername={setUsername} setLoggedIn={setLoggedIn} />
+      )}
+      {loggedIn && (
+        <>
+          <Dashboard user={username} />
+          <button className="btn btn-danger" onClick={handleLogoutClick}>
+            Log out
+          </button>
+        </>
+      )}
+    </div>
+  )
 }
 ```
 
@@ -85,29 +79,29 @@ function App() {
 import React from 'react'
 
 const LoginForm = () => {
-    const handleFormSubmit = (event) => {
-        event.preventDefault()
-        fetch('http://192.168.1.70:7777/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username,
-                password,
-            }),
-        })
-            .then((response) => {
-                console.log(response)
-                return response.json()
-            })
-            .catch((error) => console.error(error))
-    }
-    return (
-        <form onSubmit={handleFormSubmit} className="mt-4">
-            {/* ... */}
-        </form>
-    )
+  const handleFormSubmit = (event) => {
+    event.preventDefault()
+    fetch('http://192.168.1.70:7777/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then((response) => {
+        console.log(response)
+        return response.json()
+      })
+      .catch((error) => console.error(error))
+  }
+  return (
+    <form onSubmit={handleFormSubmit} className="mt-4">
+      {/* ... */}
+    </form>
+  )
 }
 ```
 
@@ -120,9 +114,9 @@ Nous devons ajouter middleware:
 ```javascript
 // login/src/app.js
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Headers', 'Content-Type')
-    next()
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Content-Type')
+  next()
 })
 ```
 
@@ -144,33 +138,33 @@ res.send({ valid: true, username })
 //
 
 const handleFormSubmit = (e) => {
-    e.preventDefault()
-    const username = e.target.elements.username.value
-    const password = e.target.elements.password.value
-    e.target.reset()
-    fetch('http://192.168.1.70:7777/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username,
-            password,
-        }),
+  e.preventDefault()
+  const username = e.target.elements.username.value
+  const password = e.target.elements.password.value
+  e.target.reset()
+  fetch('http://192.168.1.70:7777/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username,
+      password,
+    }),
+  })
+    .then((response) => {
+      console.log(response)
+      return response.json()
     })
-        .then((response) => {
-            console.log(response)
-            return response.json()
-        })
-        .then((data) => {
-            if (data.valid) {
-                setLoggedIn(true)
-                setUsername(data.username)
-            } else {
-                alert('Your credentials are not valid, try again ;)')
-            }
-        })
-        .catch((error) => console.error(error))
+    .then((data) => {
+      if (data.valid) {
+        setLoggedIn(true)
+        setUsername(data.username)
+      } else {
+        alert('Your credentials are not valid, try again ;)')
+      }
+    })
+    .catch((error) => console.error(error))
 }
 ```
 
@@ -182,29 +176,26 @@ import LoginForm from './components/LoginForm.js'
 import Dashboard from './components/Dashboard'
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(false)
-    const [username, setUsername] = useState('')
-    const handleLogoutClick = () => {
-        setUsername('')
-        setLoggedIn(false)
-    }
-    return (
-        <div className="container my-4">
-            <h1 className="display-3 text-center mb-4">Authentification</h1>
-            {/* ... */}
-            {loggedIn && (
-                <>
-                    <Dashboard user={username} />
-                    <button
-                        className="btn btn-danger"
-                        onClick={handleLogoutClick}
-                    >
-                        Log out
-                    </button>
-                </>
-            )}
-        </div>
-    )
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [username, setUsername] = useState('')
+  const handleLogoutClick = () => {
+    setUsername('')
+    setLoggedIn(false)
+  }
+  return (
+    <div className="container my-4">
+      <h1 className="display-3 text-center mb-4">Authentification</h1>
+      {/* ... */}
+      {loggedIn && (
+        <>
+          <Dashboard user={username} />
+          <button className="btn btn-danger" onClick={handleLogoutClick}>
+            Log out
+          </button>
+        </>
+      )}
+    </div>
+  )
 }
 
 export default App
